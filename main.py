@@ -1,5 +1,4 @@
 import praw
-import logging
 
 client_id = "jJIKCundTtZaI98jM8vAUw"
 client_secret = "FNnxW3dQ8gvApsqfwosxdAVUeoB6qw"
@@ -14,4 +13,6 @@ print(reddit.read_only) # Output: True
 print(reddit.user.me()) # Output: TestBotDMM
 
 for submission in reddit.subreddit("askreddit").hot(limit=10):
-    logging.info(submission.title)
+    print(submission.title) # Output: The title of the submission
+    print(submission.score) # Output: The score of the submission
+    print(submission.id) # Output: The ID of the submission
