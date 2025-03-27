@@ -92,7 +92,4 @@ def run_etl_route():
     return "ETL ran successfully!"
 
 if __name__ == "__main__":
-    from threading import Thread
-    t = Thread(lambda: [time.sleep(WAIT_TIME), run_etl()]).start()
-
     app.run(host="0.0.0.0", port=8080)
