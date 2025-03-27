@@ -35,9 +35,9 @@ bucket = b2_api.get_bucket_by_name(BUCKET_NAME)
 
 
 def run_etl():
-    subreddit = reddit.subreddit("nosleep")
+    subreddit = reddit.subreddit(SUBREDDIT)
     posts = []
-    for post in subreddit.top(limit=1000):
+    for post in subreddit.top(limit=POST_LIMIT):
         posts.append({
             "id": post.id,
             "title": post.title,
@@ -59,7 +59,7 @@ def run_etl():
             "title": post["title"],
             "comments": []
         })
-        for comment in submission.comments.list()[:10]:
+        for comment in submission.comments.list()[:COMMENT_LIMIT]:
             cmt_data[-1]["comments"].append({
                 "id": comment.id,
                 "author": str(comment.author),
