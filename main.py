@@ -2,6 +2,7 @@ import praw
 import os
 import time
 import json
+from flask import Flask
 from datetime import datetime
 from b2sdk.v2 import B2Api, InMemoryAccountInfo
 from dotenv import load_dotenv
@@ -33,6 +34,7 @@ b2_api = B2Api(info)
 b2_api.authorize_account("production", KEY_ID, APPLICATION_KEY)
 bucket = b2_api.get_bucket_by_name(BUCKET_NAME)
 
+app = Flask(__name__)
 
 def run_etl():
     subreddit = reddit.subreddit(SUBREDDIT)
@@ -80,9 +82,17 @@ def run_etl():
     os.remove(DATA_PATH)
     os.remove(DATA_PATH.replace(".json", "_comments.json"))
 
-while True:
-    try:
-        run_etl()
-    except Exception as e:
-        print(e)
-    time.sleep(WAIT_TIME)
+@app.route("/")
+def home():
+    return "Hello, World!"
+
+@app.route("/run_etl")
+def run_etl_route():
+    run_etl()
+    return "ETL ran successfully!"
+
+if __name__ == "__main__":
+    from threading import Thread
+    t = Thread(lambda: [time.sleep(WAIT_TIME), run_etl()]).start()
+
+    app.run(host="0.0.0.0", port=8080)
