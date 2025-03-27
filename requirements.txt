@@ -1,4 +1,4 @@
 praw
 b2sdk
-dotenv
+python-dotenv
 flask
