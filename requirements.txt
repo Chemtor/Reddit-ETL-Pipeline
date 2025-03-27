@@ -1,1 +1,3 @@
 praw
+b2sdk
+dotenv
