@@ -21,6 +21,9 @@ env:
   BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
   PATH_TOKEN: ${{ secrets.PATH_TOKEN }}
 
+permissions:
+  contents: write
+
 jobs:
   etl_job:
     runs-on: ubuntu-latest
@@ -31,6 +34,8 @@ jobs:
     steps:
       - name: 🛠 Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐍 Setup Python
         uses: actions/setup-python@v4
@@ -52,4 +57,8 @@ jobs:
           git add .
           git commit -m "🔄 Auto update ETL output [skip ci]" || echo "No changes to commit"
           git push origin main || echo "No changes to push"
+          
+      - name: 🧐 Debug Git Status
+        run: git status
+
 
