@@ -51,11 +51,11 @@ def delete_data():
 
 def upload_data_to_bucket(posts, cmts):
     """Upload the data to B2 bucket."""
-    with open("data.json", "w") as f:
-        json.dump(posts, f)
+    with open("data.json", "w", encoding='utf-8') as f:
+        json.dump(posts, f, ensure_ascii=False, indent=4)
     
-    with open("data_2.json", "w") as f:     
-        json.dump(cmts, f)
+    with open("data_2.json", "w", encoding='utf-8') as f:     
+        json.dump(cmts, f, ensure_ascii=False, indent=4)
     # Upload the file to B2 bucket
     # delete_data()
     # Upload the file to B2 bucket
