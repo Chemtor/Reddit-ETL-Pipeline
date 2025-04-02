@@ -11,8 +11,8 @@ DATA_DIR_RAW = os.environ["DATA_DIR_RAW"]
 DATA_PATH = os.environ["DATA_PATH"]
 
 post_data, cmt_data = extract.extract_data()
-# save_to_file.save_to_file_json(post_data, DATA_DIR_RAW + "/posts.json")
-# save_to_file.save_to_file_json(cmt_data, DATA_DIR_RAW + "/comments.json")
+save_to_file.save_to_file_json(post_data, DATA_DIR_RAW + "/posts.json")
+save_to_file.save_to_file_json(cmt_data, DATA_DIR_RAW + "/comments.json")
 
 clean_posts, clean_comments = transform.transformer(post_data, cmt_data)
 save_to_file.save_to_file_json(clean_posts, DATA_PATH + "/clean_posts.json")
