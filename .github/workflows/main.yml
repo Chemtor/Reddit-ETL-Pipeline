@@ -2,24 +2,8 @@ name: Scheduled ETL Job
 
 on:
   schedule:
-    - cron: "* */6 * * *"  # Chạy mỗi 5 phút
-  workflow_dispatch:  # Cho phép chạy thủ công trên GitHub Actions
-
-env:
-  CLIENT_ID: ${{ secrets.CLIENT_ID }}
-  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-  SUBREDDIT: ${{ secrets.SUBREDDIT }}
-  POST_LIMIT: ${{ secrets.POST_LIMIT }}
-  COMMENT_LIMIT: ${{ secrets.COMMENT_LIMIT }}
-  FILTER: ${{ secrets.FILTER }}
-  WAIT_TIME: ${{ secrets.WAIT_TIME }}
-  DATA_PATH: ${{ secrets.DATA_PATH }}
-  DATA_DIR_RAW: ${{ secrets.DATA_DIR_RAW }}
-  REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-  KEY_ID: ${{ secrets.KEY_ID }}
-  APPLICATION_KEY: ${{ secrets.APPLICATION_KEY }}
-  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-  PATH_TOKEN: ${{ secrets.PATH_TOKEN }}
+    - cron: "* */6 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -48,15 +32,36 @@ jobs:
           pip install -r requirements.txt
           
       - name: 🚀 Run ETL script
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          SUBREDDIT: ${{ secrets.SUBREDDIT }}
+          POST_LIMIT: ${{ secrets.POST_LIMIT }}
+          COMMENT_LIMIT: ${{ secrets.COMMENT_LIMIT }}
+          FILTER: ${{ secrets.FILTER }}
+          WAIT_TIME: ${{ secrets.WAIT_TIME }}
+          DATA_PATH: ${{ secrets.DATA_PATH }}
+          DATA_DIR_RAW: ${{ secrets.DATA_DIR_RAW }}
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+          KEY_ID: ${{ secrets.KEY_ID }}
+          APPLICATION_KEY: ${{ secrets.APPLICATION_KEY }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          PATH_TOKEN: ${{ secrets.PATH_TOKEN }}
         run: python main.py
 
-      - name: 📂 Commit & Push Changes
+      - name: ❓ Check for changes
+        id: git-check
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
           git add .
-          git commit -m "🔄 Auto update ETL output [skip ci]" || echo "No changes to commit"
-          git push origin main || echo "No changes to push"
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV
+          
+      - name: 📂 Commit and push if changes
+        if: env.changes == 'true' # if changes made push new data to repo
+        run: |
+          git commit -m "🔄 Auto update post and comments data"
+          git push
           
       - name: 🧐 Debug Git Status
         run: git status
