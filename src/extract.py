@@ -7,14 +7,10 @@ load_dotenv()
 
 # Load environment variables
 SUBREDDIT = os.getenv("SUBREDDIT")
+print(SUBREDDIT)
 POST_LIMIT = int(os.getenv("POST_LIMIT", 25))
 COMMENT_LIMIT = int(os.getenv("COMMENT_LIMIT", 10))
 FILTER = os.getenv("FILTER", "all")
-
-#DEBUG
-print(f"DEBUG: SUBREDDIT={SUBREDDIT}")
-print(f"DEBUG: POST_LIMIT={os.getenv('POST_LIMIT')}")
-print(f"DEBUG: COMMENT_LIMIT={os.getenv('COMMENT_LIMIT')}")
 
 def extract_data():
     reddit = setup.connect_reddit()
