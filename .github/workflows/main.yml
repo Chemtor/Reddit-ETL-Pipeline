@@ -46,7 +46,6 @@ jobs:
           KEY_ID: ${{ secrets.KEY_ID }}
           APPLICATION_KEY: ${{ secrets.APPLICATION_KEY }}
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-          PATH_TOKEN: ${{ secrets.PATH_TOKEN }}
         run: python main.py
 
       - name: ❓ Check for changes
