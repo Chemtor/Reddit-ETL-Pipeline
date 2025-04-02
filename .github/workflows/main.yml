@@ -55,7 +55,7 @@ jobs:
           git config user.email 'github-actions@github.com'
           git add .
           git commit -m "🔄 Auto update post and comments data" || echo "No changes to commit"
-          git push origin main || || echo "No changes to push"
+          git push origin main || echo "No changes to push"
           
       - name: 🧐 Debug Git Status
         run: git status
