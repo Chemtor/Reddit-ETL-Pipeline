@@ -2,7 +2,7 @@ name: Scheduled ETL Job
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Chạy mỗi 5 phút
+    - cron: "*/10 * * * *"  # Chạy mỗi 5 phút
   workflow_dispatch:  # Cho phép chạy thủ công trên GitHub Actions
 
 env:
@@ -19,6 +19,7 @@ env:
   KEY_ID: ${{ secrets.KEY_ID }}
   APPLICATION_KEY: ${{ secrets.APPLICATION_KEY }}
   BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  PATH_TOKEN: ${{ secrets.PATH_TOKEN }}
 
 jobs:
   etl_job:
