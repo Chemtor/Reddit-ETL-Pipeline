@@ -1,7 +1,5 @@
 .venv
 .env
 airflow_env/
-data_clean/
-data_raw/
 data_test/
 __pycache__/
