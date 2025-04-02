@@ -2,3 +2,4 @@ praw
 b2sdk
 python-dotenv
 flask
+pandas
