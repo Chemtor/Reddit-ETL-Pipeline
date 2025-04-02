@@ -1,0 +1,47 @@
+name: Scheduled ETL Job
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"  # Chạy mỗi 5 phút
+  workflow_dispatch:  # Cho phép chạy thủ công trên GitHub Actions
+
+jobs:
+  etl_job:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: etl_job
+      cancel-in-progress: false
+
+    steps:
+      - name: 🛠 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 📄 Create .env file
+        run: |
+          touch .env
+          echo CLIENT_ID=${{ secrets.CLIENT_ID }} >> .env
+          echo CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} >> .env
+          echo SUBREDDIT=${{ secrets.SUBREDDIT }} >> .env
+          echo POST_LIMIT=${{ secrets.POST_LIMIT }} >> .env
+          echo COMMENT_LIMIT=${{ secrets.COMMENT_LIMIT }} >> .env
+          echo FILTER=${{ secrets.FILTER }} >> .env
+          echo WAIT_TIME=${{ secrets.WAIT_TIME }} >> .env
+          echo DATA_PATH=${{ secrets.DATA_PATH }} >> .env
+          echo DATA_DIR_RAW=${{ secrets.DATA_DIR_RAW }} >> .env
+          echo REMOTE_PATH=${{ secrets.REMOTE_PATH }} >> .env
+          echo KEY_ID=${{ secrets.KEY_ID }} >> .env
+          echo APPLICATION_KEY=${{ secrets.APPLICATION_KEY }} >> .env
+          echo BUCKET_NAME=${{ secrets.BUCKET_NAME }} >> .env
+
+      - name: 🚀 Run ETL script
+        run: python main.py
