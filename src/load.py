@@ -6,10 +6,14 @@ import json
 
 load_dotenv()
 
-KEY_ID = os.getenv("KEY_ID")
-APPLICATION_KEY = os.getenv("APPLICATION_KEY")
-BUCKET_NAME = os.getenv("BUCKET_NAME")
-REMOTE_PATH = os.getenv("REMOTE_PATH")
+# KEY_ID = os.getenv("KEY_ID")
+# APPLICATION_KEY = os.getenv("APPLICATION_KEY")
+# BUCKET_NAME = os.getenv("BUCKET_NAME")
+# REMOTE_PATH = os.getenv("REMOTE_PATH")
+KEY_ID = os.environ["KEY_ID"]
+APPLICATION_KEY = os.environ["APPLICATION_KEY"]
+BUCKET_NAME = os.environ["BUCKET_NAME"]
+REMOTE_PATH = os.environ["REMOTE_PATH"]
 
 info = InMemoryAccountInfo()
 b2_api = B2Api(info)

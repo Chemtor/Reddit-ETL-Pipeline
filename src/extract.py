@@ -6,11 +6,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Load environment variables
-SUBREDDIT = os.getenv("SUBREDDIT")
-print(SUBREDDIT)
-POST_LIMIT = int(os.getenv("POST_LIMIT", 25))
-COMMENT_LIMIT = int(os.getenv("COMMENT_LIMIT", 10))
-FILTER = os.getenv("FILTER", "all")
+SUBREDDIT = os.environ["SUBREDDIT"]
+POST_LIMIT = int(os.environ["POST_LIMIT"])
+COMMENT_LIMIT = int(os.environ["COMMENT_LIMIT"])
+FILTER = os.environ["FILTER"]
 
 def extract_data():
     reddit = setup.connect_reddit()

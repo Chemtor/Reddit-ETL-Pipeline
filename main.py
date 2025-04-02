@@ -5,8 +5,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 # Load environment variables
-DATA_DIR_RAW = os.getenv("DATA_DIR_RAW")
-DATA_PATH = os.getenv("DATA_PATH")
+# DATA_DIR_RAW = os.getenv("DATA_DIR_RAW")
+# DATA_PATH = os.getenv("DATA_PATH")
+DATA_DIR_RAW = os.environ["DATA_DIR_RAW"]
+DATA_PATH = os.environ["DATA_PATH"]
 
 post_data, cmt_data = extract.extract_data()
 # save_to_file.save_to_file_json(post_data, DATA_DIR_RAW + "/posts.json")
