@@ -19,6 +19,5 @@ save_to_file.save_to_file_json(clean_posts, DATA_PATH + "/clean_posts.json")
 save_to_file.save_to_file_json(clean_comments, DATA_PATH + "/clean_comments.json")
 
 # load.load_to_postgresql(clean_posts, clean_comments)
-load.upload_data_to_bucket(clean_posts)
-load.upload_data_to_bucket(clean_comments)
+load.upload_data_to_bucket(clean_posts, clean_comments)
 

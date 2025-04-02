@@ -61,12 +61,12 @@ def upload_data_to_bucket(posts, cmts):
     # Upload the file to B2 bucket
     bucket.upload_local_file(
         local_file="data.json",
-        file_name=REMOTE_PATH + "post.json"
+        file_name=REMOTE_PATH + "/post.json"
     )
 
     bucket.upload_local_file(
         local_file="data_2.json",
-        file_name=REMOTE_PATH + "comments.json"
+        file_name=REMOTE_PATH + "/comments.json"
     )
 
     # Delete the local file after uploading
