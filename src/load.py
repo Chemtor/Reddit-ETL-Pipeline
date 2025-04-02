@@ -57,7 +57,7 @@ def upload_data_to_bucket(posts, cmts):
     with open("data_2.json", "w") as f:     
         json.dump(cmts, f)
     # Upload the file to B2 bucket
-    delete_data()
+    # delete_data()
     # Upload the file to B2 bucket
     bucket.upload_local_file(
         local_file="data.json",
