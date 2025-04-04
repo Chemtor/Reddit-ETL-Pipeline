@@ -2,4 +2,6 @@
 .env
 airflow_env/
 data_test/
+data_clean/
+data_raw/
 __pycache__/

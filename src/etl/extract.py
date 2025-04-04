@@ -1,22 +1,37 @@
-import utils.setup as setup
+import utils.setup_api as setup_api
 from datetime import datetime
-import os
+# import os
 from dotenv import load_dotenv
+import yaml
 
 load_dotenv()
 
 # Load environment variables
-SUBREDDIT = os.environ["SUBREDDIT"]
-POST_LIMIT = int(os.environ["POST_LIMIT"])
-COMMENT_LIMIT = int(os.environ["COMMENT_LIMIT"])
-FILTER = os.environ["FILTER"]
+with open('config/config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+SUBREDDIT = config['subreddits']
+POST_LIMIT = config['extraction']['limit']
+KEY = config['extraction']['key']
+COMMENT_LIMIT = config['extraction']['comment_limit']
+FILTER = config['extraction']['time_filter']
 
 def extract_data():
-    reddit = setup.connect_reddit()
+    reddit = setup_api.connect_reddit()
     posts = []
-    for subreddit_name in SUBREDDIT.split(","):
-        subreddit = reddit.subreddit(subreddit_name.strip())
-        for post in subreddit.top(limit=POST_LIMIT, time_filter=FILTER):
+    for subreddit_name in SUBREDDIT:
+        subreddit = reddit.subreddit(subreddit_name)
+        if KEY == "hot":
+            subreddit = subreddit.hot(limit=POST_LIMIT)
+        elif KEY == "new":
+            subreddit = subreddit.new(limit=POST_LIMIT)
+        elif KEY == "rising":
+            subreddit = subreddit.rising(limit=POST_LIMIT)
+        elif KEY == "controversial":
+            subreddit = subreddit.controversial(limit=POST_LIMIT, time_filter=FILTER)
+        elif KEY == "top":
+            subreddit = subreddit.top(limit=POST_LIMIT, time_filter=FILTER)
+        for post in subreddit:
             posts.append({
                 "id": post.id,
                 "title": post.title,
@@ -45,10 +60,10 @@ def extract_data():
         for comment in submission.comments.list()[:COMMENT_LIMIT]:
             cmt_data[-1]["comments"].append({
                 "id": comment.id,
+                "parent_id": comment.parent_id,
                 "author": str(comment.author),
                 "score": comment.score,
                 "body": comment.body,
-                "created_date": datetime.fromtimestamp(comment.created_utc).strftime('%Y-%m-%d %H:%M:%S'),
-                "parent_id": comment.parent_id
+                "created_date": datetime.fromtimestamp(comment.created_utc).strftime('%Y-%m-%d %H:%M:%S')
             })
     return posts, cmt_data

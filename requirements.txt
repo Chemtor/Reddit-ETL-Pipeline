@@ -3,3 +3,5 @@ b2sdk
 python-dotenv
 flask
 pandas
+emoji
+pyyaml
