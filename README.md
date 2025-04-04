@@ -16,3 +16,5 @@ graph TD
     B -->|Transform| C[Cleaned Data]
     C -->|Load| D[(Database PostGreSQL)]
     C -->|Load| E[Data Storage Bucket B2]
+```
+
