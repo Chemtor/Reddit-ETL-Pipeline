@@ -1,11 +1,11 @@
 subreddits:
-  - cscareerquestions
   - dataengineering
-  - askreddit
+  - learnprogramming
+  - cscareerquestions
 extraction:
-  limit: 200                  # Number of post per subreddit
+  limit: 100                  # Number of post per subreddit
   key: top                    # Keyword to filter post: hot, top, best, now, controversial, rising
-  time_filter: "week"         # Fiter time: year, month, week, day (Apply only for Controversial and Top key)
+  time_filter: week           # Fiter time: year, month, week, day (Apply only for Controversial and Top key)
   comment_limit: 10           # Number of comment per post per subreddit
 
 data_path:

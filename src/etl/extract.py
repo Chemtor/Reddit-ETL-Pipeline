@@ -11,9 +11,9 @@ with open('config/config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 
 SUBREDDIT = config['subreddits']
-POST_LIMIT = config['extraction']['limit']
+POST_LIMIT = int(config['extraction']['limit'])
 KEY = config['extraction']['key']
-COMMENT_LIMIT = config['extraction']['comment_limit']
+COMMENT_LIMIT = int(config['extraction']['comment_limit'])
 FILTER = config['extraction']['time_filter']
 
 def extract_data():
@@ -31,6 +31,7 @@ def extract_data():
             subreddit = subreddit.controversial(limit=POST_LIMIT, time_filter=FILTER)
         elif KEY == "top":
             subreddit = subreddit.top(limit=POST_LIMIT, time_filter=FILTER)
+            
         for post in subreddit:
             posts.append({
                 "id": post.id,
