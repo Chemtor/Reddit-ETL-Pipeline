@@ -1,1 +1,1 @@
-# This file contains raw data
+# This folder contains raw data
