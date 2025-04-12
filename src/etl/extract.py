@@ -43,7 +43,7 @@ def extract_data():
                 "upvote_ratio": post.upvote_ratio,
                 "num_comments": post.num_comments,
                 "url": post.url,
-                "created_date": datetime.fromtimestamp(post.created_utc).strftime('%Y-%m-%d %H:%M:%S'),
+                "created_utc": post.created_utc,
                 'extracted_at': datetime.now().isoformat().split(".")[0].replace("T", " ")
             })
 
@@ -51,20 +51,22 @@ def extract_data():
     for post in posts:
         submission = reddit.submission(id=post["id"])
         submission.comments.replace_more(limit=0)
-        cmt_data.append({
-            "id": post["id"],
-            "title": post["title"],
-            "subreddit": post["subreddit"],
-            "comments": [],
-            "extracted_at": datetime.now().isoformat().split(".")[0].replace("T", " ")
-        })
+        # cmt_data.append({
+        #     "id": post["id"],
+        #     "title": post["title"],
+        #     "subreddit": post["subreddit"],
+        #     "comments": [],
+        # })
         for comment in submission.comments.list()[:COMMENT_LIMIT]:
-            cmt_data[-1]["comments"].append({
+            cmt_data.append({
                 "id": comment.id,
-                "parent_id": comment.parent_id,
-                "author": str(comment.author),
-                "score": comment.score,
                 "body": comment.body,
-                "created_date": datetime.fromtimestamp(comment.created_utc).strftime('%Y-%m-%d %H:%M:%S')
+                "author": str(comment.author),
+                "created_utc": comment.created_utc,
+                "score": comment.score,
+                "subreddit": post["subreddit"],
+                "parent_id": comment.parent_id,
+                "is_submitter": bool(comment.is_submitter),
+                "distinguished": comment.distinguished
             })
     return posts, cmt_data
