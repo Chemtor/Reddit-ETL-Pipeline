@@ -1,1 +1,1 @@
-# This file contains processed data (data is cleaned)
+# This folder contains processed data (data is cleaned)
